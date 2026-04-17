@@ -73,7 +73,7 @@ Diseñado originalmente para un Battle Royale con toques de horror corporal, el 
 
 1. **Descarga** este repositorio o clónalo:
    ```bash
-   git clone https://github.com/tu-usuario/MEAT-Director-System.git
+   git clone https://github.com/shezz-bomb/MEAT-Framework
    ```
 
 2. **Copia** la carpeta `src/ServerScriptService/DirectorSystem` dentro de `ServerScriptService` en tu juego de Roblox.
