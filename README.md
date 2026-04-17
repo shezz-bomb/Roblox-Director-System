@@ -1,13 +1,58 @@
-# 🎮 Roblox AI Director System
+
+## 📁 Estructura de Carpetas del Repositorio
+
+```
+MEAT-Director-System/
+│
+├── .gitignore
+├── LICENSE
+├── README.md
+│
+├── docs/
+│   ├── API.md
+│   ├── EVENTS.md
+│   └── CONFIGURATION.md
+│
+├── src/
+│   └── ServerScriptService/
+│       ├── DirectorSystem/
+│       │   ├── DirectorMemory.lua
+│       │   ├── DirectorMonitor.lua
+│       │   ├── DirectorDecider.lua
+│       │   ├── DirectorExecutor.lua
+│       │   └── DirectorController.lua
+│       │
+│       └── Dependencies/
+│           ├── RelicsManager.lua      (stub para pruebas)
+│           ├── CypherManager.lua      (stub para pruebas)
+│           └── CalendarService.lua    (stub para pruebas)
+│
+├── example/
+│   ├── ExamplePlace.rbxl
+│   └── README.md
+│
+└── images/
+    ├── banner.png
+    └── diagram.png
+```
+
+---
+
+## 📄 README.md (Completo y Listo para Copiar)
+
+```markdown
+# 🥩 MEAT Director System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Roblox](https://img.shields.io/badge/Roblox-Studio-red)](https://www.roblox.com/create)
 [![Luau](https://img.shields.io/badge/Language-Luau-blue)](https://luau-lang.org/)
 
-> *Un sistema de Director controlado por IA para gestionar el ritmo de partida y lanzar eventos dinámicos en tiempo real.*
+> *"El Director observa. La carne tiembla. El caos obedece."*
 
-**Roblox AI Director System** es un framework modular diseñado para juegos multijugador que requieren un control dinámico de la dificultad y la narrativa.  
-Inspirado en sistemas como el *AI Director* de Left 4 Dead, este módulo analiza constantemente el estado de la partida y decide qué eventos lanzar para mantener la experiencia siempre desafiante y variada.
+**MEAT Director** es un sistema de **AI Director** inspirado en *Left 4 Dead*, *Risk of Rain* y el horror cósmico lovecraftiano.  
+Controla el ritmo de la partida, lanza eventos dinámicos y reacciona al estado del juego para mantener la experiencia siempre intensa e impredecible.
+
+Diseñado originalmente para un Battle Royale con toques de horror corporal, el sistema es **modular y altamente configurable**.
 
 ---
 
@@ -15,116 +60,172 @@ Inspirado en sistemas como el *AI Director* de Left 4 Dead, este módulo analiza
 
 | Característica | Descripción |
 |----------------|-------------|
-| 🎲 **Selección Ponderada de Eventos** | Utiliza un algoritmo de ruleta basado en scores calculados a partir de métricas en tiempo real. |
-| 📊 **Cálculo de "Ira" Multifactorial** | Evalúa la salud media, tasa de muertes, rachas de jugadores, uso de habilidades y más para determinar la intensidad. |
-| 🧠 **Memoria de Eventos** | Evita la repetición de eventos recientes, detecta rachas y permite definir cooldowns personalizados. |
-| 🔌 **Arquitectura Desacoplada** | Módulos independientes (`Memory`, `Monitor`, `Decider`, `Executor`, `Controller`) fáciles de extender o reemplazar. |
-| ⚡ **Ejecución Segura** | Cada evento se ejecuta dentro de un entorno protegido (`pcall`) para evitar fallos en cascada. |
-| 🛠️ **Altamente Configurable** | Cooldowns, pesos de factores de ira y eventos completamente personalizables mediante tablas. |
+| 🎲 **Selección Ponderada** | Elige el próximo evento usando un algoritmo de ruleta basado en scores dinámicos. |
+| 📊 **Métrica de "Ira"** | Calculada a partir de **8 factores**: salud media, tiempo sin eventos, dominancia de especie, kill rate, uso de poderes, rachas, duelos activos y más. |
+| 🧠 **Memoria Persistente** | Evita repetir eventos recientemente, detecta rachas y recuerda días temáticos (Martes de Carne, Sábado del Cifrado...). |
+| 🌍 **Días Especiales** | Cada día de la semana real tiene un modificador de caos único. |
+| ⚡ **Ejecución Robusta** | Cada evento se ejecuta en un entorno protegido (`pcall`) para evitar que un error detenga el sistema. |
+| 🔌 **Arquitectura Modular** | `Memory`, `Monitor`, `Decider`, `Executor` y `Controller` completamente desacoplados. |
 
 ---
 
 ## 🚀 Instalación Rápida
 
-1. **Clona** este repositorio o descarga el ZIP.
-2. **Copia** la carpeta `src/ServerScriptService/DirectorSystem` dentro de `ServerScriptService` en tu lugar de Roblox.
-3. **Copia** también la carpeta `src/ServerScriptService/Dependencies` (contiene stubs para que el sistema funcione sin dependencias externas).
+1. **Descarga** este repositorio o clónalo:
+   ```bash
+   git clone https://github.com/tu-usuario/MEAT-Director-System.git
+   ```
+
+2. **Copia** la carpeta `src/ServerScriptService/DirectorSystem` dentro de `ServerScriptService` en tu juego de Roblox.
+
+3. **Copia** la carpeta `src/ServerScriptService/Dependencies` en el mismo lugar (contiene stubs para que funcione sin modificaciones).
+
 4. **Crea** un `Script` en `ServerScriptService` con el siguiente contenido:
+   ```lua
+   local DirectorController = require(game.ServerScriptService.DirectorSystem.DirectorController)
+   DirectorController:start(30) -- Decide cada 30 segundos
+   ```
 
-```lua
-local DirectorController = require(game.ServerScriptService.DirectorSystem.DirectorController)
-DirectorController:start(30) -- Evalúa eventos cada 30 segundos
+5. **¡Listo!** El Director comenzará a observar tu partida.
 
-Ejecuta el juego. El Director comenzará a observar y lanzar eventos automáticamente.
+---
 
-📚 Documentación
-Archivo	Contenido
-API.md	Referencia completa de métodos públicos de cada módulo.
-EVENTS.md	Guía para crear y personalizar eventos.
-CONFIGURATION.md	Explicación de todas las constantes configurables (cooldowns, factores de ira, etc.).
-🧩 Dependencias Externas (Opcionales)
-El sistema está preparado para integrarse con tus propios managers de juego. Si no existen, los stubs en la carpeta Dependencies/ simularán su funcionamiento (solo imprimirán mensajes en la consola).
+## 📚 Documentación
 
-Módulo Stub	Propósito	¿Obligatorio?
-RelicsManager	Otorgar recompensas o recursos a jugadores	No
-CypherManager	Gestionar habilidades o poderes de jugadores	No
-CalendarService	Aplicar penalizaciones o recompensas basadas en desempeño	No
-Puedes reemplazar cualquiera de estos stubs por tu propia implementación en cualquier momento.
+| Archivo | Contenido |
+|---------|-----------|
+| [API.md](docs/API.md) | Referencia completa de métodos de cada módulo. |
+| [EVENTS.md](docs/EVENTS.md) | Lista de eventos incluidos y guía para crear nuevos. |
+| [CONFIGURATION.md](docs/CONFIGURATION.md) | Cómo ajustar cooldowns, factores de ira y días temáticos. |
 
-🎮 Eventos de Ejemplo Incluidos
-El sistema incluye varios eventos de demostración que puedes usar como base para crear los tuyos:
+---
 
-Evento	Descripción
-DefaultEvent	Evento básico que cura ligeramente a todos los jugadores.
-(Personalizados)	El código está preparado para añadir eventos como meteoros, cambios de gravedad, bloqueo de habilidades, recompensas sobre jugadores destacados, etc. Consulta EVENTS.md para ejemplos completos.
-🧠 ¿Cómo Funciona?
-1. Monitor
-Recopila métricas de todos los jugadores: salud media, kills, rachas, tasa de muertes por minuto, etc.
+## 🧩 Dependencias Externas
 
-2. Cálculo de Ira
-Combina múltiples factores ponderados para obtener un valor entre 0 y 100 que representa la "presión" que debe aplicar el Director.
+El sistema está diseñado para integrarse con tus propios managers. Si no existen, los **stubs** en `Dependencies/` se encargarán de que el sistema funcione sin errores (solo imprimirán logs en la consola).
 
-Factor	Peso Máximo
-Salud media baja	50
-Tiempo sin eventos	50
-Tasa de muertes alta	40
-Rachas altas de jugadores	35
-Uso excesivo de habilidades	30
-Pocos jugadores activos	30
-Duelos activos	25
-Dominancia de un equipo/especie	60
-(Todos los pesos son configurables en DirectorMonitor.lua)
+| Módulo | Propósito | ¿Obligatorio? |
+|--------|-----------|:-------------:|
+| `RelicsManager` | Otorgar recompensas a los jugadores | ❌ No |
+| `CypherManager` | Rotar poderes/habilidades | ❌ No |
+| `CalendarService` | Penalizar/recompensar por desempeño | ❌ No |
 
-3. Decider
-Evalúa todos los eventos disponibles. Cada evento tiene una función condition(metrics, anger) que devuelve un score.
-El Director selecciona uno mediante un algoritmo de ruleta ponderada.
+Puedes reemplazar los stubs por tus propios módulos en cualquier momento.
 
-4. Executor
-Ejecuta la lógica del evento elegido y registra la ocurrencia en la memoria.
+---
 
-5. Memory
-Almacena el historial de eventos, evita repeticiones cercanas y puede aplicar lógica adicional (como días especiales con multiplicadores).
+## 🎮 Eventos Incluidos
 
-🛠️ Personalización
-Añadir un Nuevo Evento
-En DirectorDecider.lua, añade una entrada a la tabla EVENT_OPTIONS:
+| Evento | Efecto |
+|--------|--------|
+| `MeatMeteor` | Un meteorito de carne cae causando daño en área. |
+| `CypherStorm` | Todos los jugadores reciben nuevos poderes. |
+| `BountyOnTopPlayer` | Se pone precio a la cabeza del jugador con más kills. |
+| `GravitalPatrol` | La gravedad aumenta drásticamente. |
+| `ReverseGravity` | La gravedad se invierte por unos segundos. |
+| `SilenceZone` | Los poderes quedan bloqueados temporalmente. |
+| `MeatRain` | Caen reliquias del cielo para todos. |
+| `CarnageRitual` | Todo el daño se duplica durante 30 segundos. |
+| `HunterParty` | Todos los jugadores son marcados para cazar al top player. |
 
-lua
-{
-    name = "MiEvento",
-    condition = function(metrics, anger)
-        -- Solo disponible si la ira > 40 y hay al menos 3 jugadores
-        if anger < 40 or metrics.totalPlayers < 3 then return 0 end
-        return anger * 1.2 + metrics.globalKillRate * 5
-    end
-}
-En DirectorExecutor.lua, crea la función que ejecutará el evento:
+*Consulta [EVENTS.md](docs/EVENTS.md) para más detalles y cómo crear los tuyos.*
 
-lua
-function DirectorExecutor:miEvento()
-    -- Tu lógica aquí (efectos visuales, cambios en jugadores, etc.)
-end
-En el método execute() de DirectorExecutor.lua, añade la nueva rama:
+---
 
-lua
-elseif eventName == "MiEvento" then self:miEvento()
-Ajustar Cooldowns
-Modifica la tabla EVENT_COOLDOWNS en DirectorDecider.lua:
+## 🧠 ¿Cómo Funciona el Cálculo de Ira?
 
-lua
-local EVENT_COOLDOWNS = {
-    MiEvento = 180, -- 3 minutos de enfriamiento
-}
-📦 Lugar de Ejemplo
-En la carpeta example/ encontrarás un archivo ExamplePlace.rbxl con el sistema ya integrado y funcionando.
-Ábrelo en Roblox Studio para verlo en acción y usarlo como referencia.
+La **Ira del Director** es un valor entre `0` y `100` que determina la agresividad del sistema. Se calcula a partir de:
 
-🤝 Contribuciones
-¿Encontraste un bug o tienes una mejora?
-Abre un Issue o envía un Pull Request. Toda ayuda es bienvenida.
+| Factor | Peso Máximo | Descripción |
+|--------|:-----------:|-------------|
+| Salud Media Baja | 50 | A menos salud, más ira. |
+| Tiempo sin Eventos | 50 | El aburrimiento enfurece al Director. |
+| Dominancia de Especie | 60 | Si una especie supera el 60% del lobby. |
+| Aburrimiento (pocos jugadores) | 30 | Menos de 3 jugadores = más ira. |
+| Kill Rate Alto | 40 | Muchas muertes por minuto. |
+| Uso de Poderes | 30 | Uso excesivo de habilidades. |
+| Rachas Altas | 35 | Jugadores con streaks de kills elevadas. |
+| Duelos Activos | 25 | Caos controlado. |
 
-📜 Licencia
-Este proyecto está bajo la licencia MIT.
-Eres libre de usarlo, modificarlo y distribuirlo en proyectos personales o comerciales.
+Además, el **día de la semana real** aplica un multiplicador global (ej: Martes de Carne = x3.0).
 
-Creado con ⚙️ por [ @shezz-bomb]
+---
+
+## 🖼️ Arquitectura del Sistema
+
+```
+┌─────────────────┐     ┌─────────────────┐
+│  DirectorMonitor │ ──▶ │  DirectorDecider │
+│  (Métricas/Ira)  │     │   (Selección)     │
+└─────────────────┘     └────────┬────────┘
+                                 │
+                                 ▼
+┌─────────────────┐     ┌─────────────────┐
+│  DirectorMemory  │ ◀── │  DirectorExecutor │
+│   (Historial)    │     │   (Ejecución)     │
+└─────────────────┘     └─────────────────┘
+```
+
+- **Monitor**: Lee el estado del mundo.
+- **Decider**: Elige el mejor evento.
+- **Executor**: Lo ejecuta de forma segura.
+- **Memory**: Registra para evitar repeticiones.
+
+El **Controller** orquesta el ciclo cada `N` segundos.
+
+---
+
+## 🛠️ Personalización Rápida
+
+### Añadir un Nuevo Evento
+
+1. En `DirectorDecider.lua`, añade una entrada en `EVENT_OPTIONS`:
+   ```lua
+   {
+       name = "MiEventoBrutal",
+       condition = function(metrics, anger)
+           if onCooldown("MiEventoBrutal") then return 0 end
+           return anger * 0.8 + metrics.totalPlayers * 3
+       end
+   }
+   ```
+
+2. En `DirectorExecutor.lua`, añade la función de ejecución:
+   ```lua
+   function DirectorExecutor:miEventoBrutal()
+       broadcast("💀 ¡MI EVENTO BRUTAL SE DESATA!", 6)
+       -- Tu lógica aquí
+   end
+   ```
+
+3. En el dispatch de `execute`, añade la rama:
+   ```lua
+   elseif eventName == "MiEventoBrutal" then self:miEventoBrutal()
+   ```
+
+---
+
+## 📦 Ejemplo de Lugar
+
+En la carpeta `example/` encontrarás un archivo `ExamplePlace.rbxl` con el sistema ya configurado y funcionando.  
+Ábrelo en Roblox Studio y ejecuta para ver al Director en acción.
+
+---
+
+## 🤝 Contribuciones
+
+¿Tienes ideas para nuevos eventos, mejoras en la lógica o quieres reportar un bug?  
+Abre un **Issue** o envía un **Pull Request**.  
+Toda contribución es bienvenida.
+
+---
+
+## 📜 Licencia
+
+Este proyecto está bajo la licencia **MIT**.  
+Eres libre de usarlo, modificarlo y distribuirlo, incluso en proyectos comerciales.
+
+---
+
+**Creado con 🥩 y ⚡ por [@shezz-bomb]**
+```
