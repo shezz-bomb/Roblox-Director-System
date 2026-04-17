@@ -38,7 +38,7 @@ MEAT-Director-System/
 
 ---
 
-## 📄 README.md (Completo y Listo para Copiar)
+## 📄 README.md
 
 ```markdown
 # 🥩 MEAT Director System
